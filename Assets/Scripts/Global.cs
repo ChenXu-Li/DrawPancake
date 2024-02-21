@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 public class Global
 {
     //私有构造函数
@@ -53,6 +55,25 @@ public class Global
             Instance.StateCollection[i, col-1] = -1;
         }
         // Debug.Log("Instance.StateCollection" + Instance.StateCollection[10, 10]);
+    }
+    public  void FillStateCollection(int2 p1, int2 p2, int num)
+    {
+        if(p1.x <= p2.x && p1.y <= p2.y)
+        {
+            for (int i = p1.x; i <= p2.x; i++)
+            {
+                for (int j = p1.y; j <= p2.y; j++)
+                {
+                    Instance.StateCollection[i, j] = num;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("sfsagsagag");
+        }
+        
+
     }
     public void AppendBlock(BaseBlock block)
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Mathematics;
 using static UnityEditor.Progress;
 public class CreateWorld : MonoBehaviour
 {
@@ -108,7 +109,7 @@ public class CreateWorld : MonoBehaviour
     {
         Debug.Log(rowIndex + " " + colIndex);
         int numberindex = Global.Instance.StateCollection[rowIndex+1, colIndex+1];
-        if (numberindex!= 0)
+        if (numberindex!= 0&& numberindex != -1)
         {
             //Global.Instance.BlockCollection[numberindex].Position.x;
             BaseBlock a = Global.Instance.BlockCollection[numberindex - 1];
@@ -147,26 +148,31 @@ public class CreateWorld : MonoBehaviour
     {
 
 
-        /* CreateBlockInLevel(0, 0, 0, IDirection.RIGHT | IDirection.DOWN, Color.gray);
-         CreateBlockInLevel(7, 1, 0, IDirection.RIGHT | IDirection.UP, Color.yellow);
-         CreateBlockInLevel(6, 7, 0, XDirection.LEFTUP, Color.blue);*/
 
         Global.Instance.RemainSteps = 15;
-        CreateBlockInLevel(0, 0, 0, XDirection.RIGHTDOWN);
-        CreateBlockInLevel(0, 5, 0, IDirection.LEFT | IDirection.RIGHT | IDirection.DOWN);
-        CreateBlockInLevel(1, 7, 0, XDirection.LEFTDOWN);
-        CreateBlockInLevel(3, 4, 0, IDirection.RIGHT | IDirection.UP);
-        CreateBlockInLevel(3, 7, 0, IDirection.DOWN);
-        CreateBlockInLevel(4, 0, 0, IDirection.UP);
-        CreateBlockInLevel(4, 2, 0, XDirection.LEFTUP);
-        CreateBlockInLevel(4, 3, 0, IDirection.RIGHT | IDirection.UP);
-        CreateBlockInLevel(6, 7, 0, XDirection.LEFTUP);
-        CreateBlockInLevel(7, 2, 0, XDirection.LEFTUP | XDirection.RIGHTUP);
-        CreateBlockInLevel(7, 5, 0, IDirection.RIGHT | IDirection.UP);
+        CreateBlockInLevel(new int2(0, 0), new int2(0, 0), 0, XDirection.RIGHTDOWN);
+        CreateBlockInLevel(new int2(0, 5), new int2(0, 5), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.DOWN);
+        CreateBlockInLevel(new int2(1, 7), new int2(1, 7), 0, XDirection.LEFTDOWN);
+        CreateBlockInLevel(new int2(3, 4), new int2(3, 4), 0, IDirection.RIGHT | IDirection.UP);
+        CreateBlockInLevel(new int2(3, 7), new int2(3, 7), 0, IDirection.DOWN);
+        CreateBlockInLevel(new int2(4, 0), new int2(4, 0), 0, IDirection.UP);
+        CreateBlockInLevel(new int2(4, 2), new int2(4, 2), 0, XDirection.LEFTUP);
+        CreateBlockInLevel(new int2(4, 3), new int2(4, 3), 0, IDirection.RIGHT | IDirection.UP);
+        CreateBlockInLevel(new int2(6, 7), new int2(6, 7), 0, XDirection.LEFTUP);
+        CreateBlockInLevel(new int2(7, 2), new int2(7, 2), 0, XDirection.LEFTUP | XDirection.RIGHTUP);
+        CreateBlockInLevel(new int2(7, 5), new int2(7, 5), 0, IDirection.RIGHT | IDirection.UP);
+
+        //CreateBlockInLevel(new int2(2,2),new int2(2,3), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.UP | IDirection.DOWN);
+        //CreateBlockInLevel(new int2(2, 2), new int2(2, 2), 0, IDirection.RIGHT);
+        //CreateBlockInLevel(new int2(3, 4), new int2(5, 7), 0, IDirection.UP);
+
+        //CreateBlockInLevel(new int2(2, 3), new int2(2, 4), 0, XDirection.LEFTUP | XDirection.RIGHTUP |XDirection.LEFTDOWN | XDirection.RIGHTDOWN );
+
+
 
     }
 
-    void CreateBlockInLevel(int x, int y, int initial_step, XDirection Dirs)
+    /*void CreateBlockInLevel(int x, int y, int initial_step, XDirection Dirs)
     {
         ++BlockCount;
         BaseBlock a = new XTypeBlock(x, y, initial_step, BlockCount, Dirs, morandiColors[BlockCount % 16]);
@@ -174,13 +180,32 @@ public class CreateWorld : MonoBehaviour
         Global.Instance.AppendBlock(a);
         VisualEffect.ArrowCreate((XTypeBlock)a);
 
+    }*/
+    void CreateBlockInLevel(int2 p1, int2 p2, int initial_step, XDirection Dirs)
+    {
+        ++BlockCount;
+        BaseBlock a = new XTypeBlock(p1, p2, initial_step, BlockCount, Dirs, morandiColors[BlockCount % 16]);
+        //Global.Instance.ButtonCollection[x, y].GetComponent<Image>().color = a.SquareColor;
+        Global.Instance.AppendBlock(a);
+        VisualEffect.FillButtonColor(p1, p2, a.SquareColor);
+        VisualEffect.ArrowCreate((XTypeBlock)a);
+
     }
-    void CreateBlockInLevel(int x, int y, int initial_step,IDirection Dirs)
+    /*void CreateBlockInLevel(int x, int y, int initial_step,IDirection Dirs)
     {
         ++BlockCount;
         BaseBlock a = new ITypeBlock(x, y, initial_step, BlockCount, Dirs, morandiColors[BlockCount%16]);
         Global.Instance.ButtonCollection[x, y].GetComponent<Image>().color = a.SquareColor;
         Global.Instance.AppendBlock(a);
+        VisualEffect.ArrowCreate((ITypeBlock)a);
+    }*/
+    void CreateBlockInLevel(int2 p1, int2 p2, int initial_step, IDirection Dirs)
+    {
+        ++BlockCount;
+        BaseBlock a = new ITypeBlock(p1, p2, initial_step, BlockCount, Dirs, morandiColors[BlockCount % 16]);
+ 
+        Global.Instance.AppendBlock(a);
+        VisualEffect.FillButtonColor(p1, p2, a.SquareColor);
         VisualEffect.ArrowCreate((ITypeBlock)a);
     }
 }
