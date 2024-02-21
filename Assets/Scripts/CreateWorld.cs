@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Mathematics;
 using static UnityEditor.Progress;
+using System;
 public class CreateWorld : MonoBehaviour
 {
+    public string levelname;
     public GameObject canvas;
     public GameObject canvas_arrow;
     public GameObject buttonPrefab;
     public GameObject arrowPrefab;
     public Text remainstepsText;
-    public int rows;
-    public int columns;
+    protected int rows;
+    protected int columns;
 
     private static int BlockCount = 0;
     private Color[] morandiColors = new Color[16];
@@ -22,11 +24,12 @@ public class CreateWorld : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitializeVisualEffectArg();
-        InitializeGlobalArg();
-        CreateColorCollections();
-        CreateButtonZone();
+        
         CreateLevel();
+        
+        
+        
+        
     }
     private void CreateColorCollections()
     {
@@ -148,8 +151,8 @@ public class CreateWorld : MonoBehaviour
     {
 
 
-
-        Global.Instance.RemainSteps = 15;
+        LoadLevelFromJson(levelname);
+/*        Global.Instance.RemainSteps = 15;
         CreateBlockInLevel(new int2(0, 0), new int2(0, 0), 0, XDirection.RIGHTDOWN);
         CreateBlockInLevel(new int2(0, 5), new int2(0, 5), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.DOWN);
         CreateBlockInLevel(new int2(1, 7), new int2(1, 7), 0, XDirection.LEFTDOWN);
@@ -160,7 +163,7 @@ public class CreateWorld : MonoBehaviour
         CreateBlockInLevel(new int2(4, 3), new int2(4, 3), 0, IDirection.RIGHT | IDirection.UP);
         CreateBlockInLevel(new int2(6, 7), new int2(6, 7), 0, XDirection.LEFTUP);
         CreateBlockInLevel(new int2(7, 2), new int2(7, 2), 0, XDirection.LEFTUP | XDirection.RIGHTUP);
-        CreateBlockInLevel(new int2(7, 5), new int2(7, 5), 0, IDirection.RIGHT | IDirection.UP);
+        CreateBlockInLevel(new int2(7, 5), new int2(7, 5), 0, IDirection.RIGHT | IDirection.UP);*/
 
         //CreateBlockInLevel(new int2(2,2),new int2(2,3), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.UP | IDirection.DOWN);
         //CreateBlockInLevel(new int2(2, 2), new int2(2, 2), 0, IDirection.RIGHT);
@@ -172,15 +175,7 @@ public class CreateWorld : MonoBehaviour
 
     }
 
-    /*void CreateBlockInLevel(int x, int y, int initial_step, XDirection Dirs)
-    {
-        ++BlockCount;
-        BaseBlock a = new XTypeBlock(x, y, initial_step, BlockCount, Dirs, morandiColors[BlockCount % 16]);
-        Global.Instance.ButtonCollection[x, y].GetComponent<Image>().color = a.SquareColor;
-        Global.Instance.AppendBlock(a);
-        VisualEffect.ArrowCreate((XTypeBlock)a);
 
-    }*/
     void CreateBlockInLevel(int2 p1, int2 p2, int initial_step, XDirection Dirs)
     {
         ++BlockCount;
@@ -191,14 +186,7 @@ public class CreateWorld : MonoBehaviour
         VisualEffect.ArrowCreate((XTypeBlock)a);
 
     }
-    /*void CreateBlockInLevel(int x, int y, int initial_step,IDirection Dirs)
-    {
-        ++BlockCount;
-        BaseBlock a = new ITypeBlock(x, y, initial_step, BlockCount, Dirs, morandiColors[BlockCount%16]);
-        Global.Instance.ButtonCollection[x, y].GetComponent<Image>().color = a.SquareColor;
-        Global.Instance.AppendBlock(a);
-        VisualEffect.ArrowCreate((ITypeBlock)a);
-    }*/
+
     void CreateBlockInLevel(int2 p1, int2 p2, int initial_step, IDirection Dirs)
     {
         ++BlockCount;
@@ -208,4 +196,91 @@ public class CreateWorld : MonoBehaviour
         VisualEffect.FillButtonColor(p1, p2, a.SquareColor);
         VisualEffect.ArrowCreate((ITypeBlock)a);
     }
+    void LoadLevelFromJson(string resourceName)
+    {
+        TextAsset jsonTextFile = Resources.Load<TextAsset>(resourceName);
+        if (jsonTextFile != null)
+        {
+            LevelData levelData = JsonUtility.FromJson<LevelData>(jsonTextFile.text);
+            Debug.Log("Remain Steps: " + levelData.RemainSteps);
+
+            rows = levelData.Rows;
+            columns = levelData.Columns;
+            Global.Instance.RemainSteps = 15;
+
+
+
+            InitializeVisualEffectArg();
+            InitializeGlobalArg();
+            CreateColorCollections();
+            CreateButtonZone();
+
+
+            foreach (var block in levelData.Blocks)
+            {
+                //Debug.Log($"Block Position: {block.position.x1}, {block.position.y1}, {block.position.x2}, {block.position.y2}");
+
+                if (block.type == "XType")
+                {
+                    XDirection tempd = XDirection.None;
+                    foreach (var dir in block.directions)
+                    {
+                        if (dir == "LEFTUP") { tempd |= XDirection.LEFTUP; }
+                        if (dir == "RIGHTUP") { tempd |= XDirection.RIGHTUP; }
+                        if (dir == "LEFTDOWN") { tempd |= XDirection.LEFTDOWN; }
+                        if (dir == "RIGHTDOWN") { tempd |= XDirection.RIGHTDOWN; }
+                    }
+                    CreateBlockInLevel(new int2(block.position.x1, block.position.y1), new int2(block.position.x2, block.position.y2), 0, tempd);
+                    
+                }
+                if (block.type == "IType")
+                {
+                    IDirection tempd = IDirection.None;
+                    foreach (var dir in block.directions)
+                    {
+                    
+                        if (dir == "UP") { tempd |= IDirection.UP; }
+                        if (dir == "DOWN") { tempd |= IDirection.DOWN; }
+                        if (dir == "LEFT") { tempd |= IDirection.LEFT; }
+                        if (dir == "RIGHT") { tempd |= IDirection.RIGHT; }
+                    }
+                    CreateBlockInLevel(new int2(block.position.x1, block.position.y1), new int2(block.position.x2, block.position.y2), 0, tempd);
+
+                }
+                // 你可以在这里添加更多的逻辑来处理每个块的创建和配置
+               
+
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load level data!");
+        }
+    }
+
+}
+[Serializable]
+public class LevelData
+{
+    public int RemainSteps;
+    public int Rows;
+    public int Columns;
+    public Block[] Blocks;
+}
+
+[Serializable]
+public class Block
+{
+    public Position position;
+    public string[] directions;
+    public string type;
+}
+
+[Serializable]
+public class Position
+{
+    public int x1;
+    public int y1;
+    public int x2;
+    public int y2;
 }

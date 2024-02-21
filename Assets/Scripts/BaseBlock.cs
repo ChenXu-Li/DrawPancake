@@ -148,8 +148,8 @@ public class ITypeBlock : BaseBlock
         }
         if ((EnableDirs & IDirection.DOWN) == IDirection.DOWN)
         {
-            int2 tempp1 = new int2(PositionTopLeft.x + 1, PositionTopLeft.y);
-            int2 tempp2 = new int2(PositionTopLeft.x + s, PositionBottomRight.y);
+            int2 tempp1 = new int2(PositionBottomRight.x + 1, PositionTopLeft.y);
+            int2 tempp2 = new int2(PositionBottomRight.x + s, PositionBottomRight.y);
 
             Global.Instance.FillStateCollection(new int2(tempp1.x + 1, tempp1.y + 1), new int2(tempp2.x + 1, tempp2.y + 1), NumberIndex);
             VisualEffect.FillButtonColor(tempp1, tempp2, SquareColor);
@@ -352,8 +352,8 @@ public class ITypeBlock : BaseBlock
         }
         if ((EnableDirs & IDirection.DOWN) == IDirection.DOWN)
         {
-            int2 tempp1 = new int2(PositionTopLeft.x + 1, PositionTopLeft.y);
-            int2 tempp2 = new int2(PositionTopLeft.x + s, PositionBottomRight.y);
+            int2 tempp1 = new int2(PositionBottomRight.x + 1, PositionTopLeft.y);
+            int2 tempp2 = new int2(PositionBottomRight.x + s, PositionBottomRight.y);
 
             Global.Instance.FillStateCollection(new int2(tempp1.x + 1, tempp1.y + 1), new int2(tempp2.x + 1, tempp2.y + 1), 0);
             VisualEffect.FillButtonColor(tempp1, tempp2, Color.black);
