@@ -13,6 +13,7 @@ public class CreateWorld : MonoBehaviour
     public GameObject buttonPrefab;
     public GameObject arrowPrefab;
     public Text remainstepsText;
+    public Text remainemptyText;
     protected int rows;
     protected int columns;
 
@@ -61,6 +62,7 @@ public class CreateWorld : MonoBehaviour
         VisualEffect.ArrowPrefab = arrowPrefab;
         VisualEffect.CanvasArrow = canvas_arrow;
         VisualEffect.RemainStepsText = remainstepsText;
+        VisualEffect.RemainEmptyText = remainemptyText;
 
 
     }
@@ -142,6 +144,7 @@ public class CreateWorld : MonoBehaviour
     void CreateLevel()
     {
         LoadLevelFromJson(levelname);
+        VisualEffect.UpdateProgressBarDisplay();
     }
 
 

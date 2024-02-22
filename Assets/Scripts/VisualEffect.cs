@@ -14,6 +14,7 @@ public class VisualEffect: MonoBehaviour
     public static GameObject CanvasArrow;
     
     public static Text RemainStepsText;
+    public static Text RemainEmptyText;
 
     public static void UpdateRemainingStepsDisplay()
     {
@@ -364,5 +365,25 @@ public class VisualEffect: MonoBehaviour
         }
     }
 
-
+    public static void UpdateProgressBarDisplay()
+    {
+        int filled = 0;
+        int empty = 0;
+        (filled, empty) = CountFilledAndEmpty();
+        Debug .Log(filled+"--!!!!!!!---"+empty);
+        RemainEmptyText.text = "Goals:\n " + filled+"/"+(filled+empty);
+    }
+     public static (int,int) CountFilledAndEmpty() {
+        int filled = 0;
+        int empty = 0;
+        for (int row = 1; row <= Global.Instance.Rows; row++)
+        {
+            for (int col =1; col <= Global.Instance.Columns; col++)
+            {
+                if (Global.Instance.StateCollection[row, col] == 0) empty++;
+                else if(Global.Instance.StateCollection[row, col] > 0)  filled++;
+            }
+        }
+        return (filled,empty);
+    }
 }

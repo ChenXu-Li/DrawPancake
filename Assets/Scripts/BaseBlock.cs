@@ -89,7 +89,9 @@ public class BaseBlock
             }
             
         }
-        
+        VisualEffect.UpdateProgressBarDisplay();
+
+
     }
 }
 public class ITypeBlock : BaseBlock

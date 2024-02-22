@@ -315,6 +315,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1087815250}
   - {fileID: 577819121}
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -488,7 +489,7 @@ GameObject:
   - component: {fileID: 577819123}
   - component: {fileID: 577819122}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: TextSteps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -507,12 +508,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 126970448}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -309, y: 22}
-  m_SizeDelta: {x: 257.1638, y: 130.1082}
+  m_AnchoredPosition: {x: -298.5375, y: 39.0015}
+  m_SizeDelta: {x: 278.0888, y: 96.1052}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577819122
 MonoBehaviour:
@@ -547,7 +548,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'remainsteps:
+  m_Text: 'RemainingSteps:
 
     666'
 --- !u!222 &577819123
@@ -557,6 +558,88 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577819120}
+  m_CullTransparentMesh: 1
+--- !u!1 &1087815249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1087815250}
+  - component: {fileID: 1087815252}
+  - component: {fileID: 1087815251}
+  m_Layer: 5
+  m_Name: TextGoal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1087815250
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087815249}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 126970448}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -328.18118, y: 133.6}
+  m_SizeDelta: {x: 218.8014, y: 91.7458}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1087815251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087815249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9811321, g: 0.93948025, b: 0.93948025, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 36
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Goal:
+
+    7/64'
+--- !u!222 &1087815252
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087815249}
   m_CullTransparentMesh: 1
 --- !u!1 &1404330478
 GameObject:
@@ -771,12 +854,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8279120a1a68bad4489b8b4994796d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelname: level1
+  levelname: level2
   canvas: {fileID: 47163051}
   canvas_arrow: {fileID: 1454932673}
   buttonPrefab: {fileID: 2493920630096650932, guid: 157c9a5fdadd3b247aebfabc7091d36c, type: 3}
   arrowPrefab: {fileID: 7678447841285160540, guid: 040b006c5f1537f4cb88f88d8897d82d, type: 3}
   remainstepsText: {fileID: 577819122}
+  remainemptyText: {fileID: 1087815251}
 --- !u!4 &1655665515
 Transform:
   m_ObjectHideFlags: 0
