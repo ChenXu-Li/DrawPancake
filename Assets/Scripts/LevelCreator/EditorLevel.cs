@@ -1,19 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class EditorLevel : MonoBehaviour
 {
+    public string levelname;
     public GameObject canvas;
 
     public GameObject buttonPrefab;
 
+    public int steps;
     public int rows;
     public int columns;
 
     public Color bcolor;
+
+    public BlockInJson[] BlocksInEditor;
 
     private static int BlockCount = 0;
     private Color[] morandiColors = new Color[16];
@@ -24,7 +31,6 @@ public class EditorLevel : MonoBehaviour
     private EventSystem eventSystem;
     void Awake()
     {
-        // 获取当前场景中的GraphicRaycaster组件和EventSystem
         // 获取Canvas上的GraphicRaycaster组件
         raycaster = FindObjectOfType<GraphicRaycaster>();
         // 获取场景中的EventSystem
@@ -56,12 +62,8 @@ public class EditorLevel : MonoBehaviour
                 Button button = result.gameObject.GetComponent<Button>();
                 if (button != null)
                 {
-                    Debug.Log("a");
-                    button.GetComponent<Image>().color = bcolor;
-                    // 改变Button的颜色
-                    /*ColorBlock colorBlock = button.colors;
-                    colorBlock.normalColor = Color.red; // 设置为红色或你希望的任何颜色
-                    button.colors = colorBlock;*/
+                    
+                    button.GetComponent<Image>().color = bcolor;                   
                 }
             }
         }
@@ -81,12 +83,8 @@ public class EditorLevel : MonoBehaviour
                 Button button = result.gameObject.GetComponent<Button>();
                 if (button != null)
                 {
-                    Debug.Log("a");
+                    
                     button.GetComponent<Image>().color = Color.black;
-                    // 改变Button的颜色
-                    /*ColorBlock colorBlock = button.colors;
-                    colorBlock.normalColor = Color.red; // 设置为红色或你希望的任何颜色
-                    button.colors = colorBlock;*/
                 }
             }
         }
@@ -153,4 +151,40 @@ public class EditorLevel : MonoBehaviour
 
     }
 
+    public void OnSaveButtonClick()
+    {
+        Debug.Log("hhhhhh"+levelname);
+        SaveLevelToJson(CreataLevelData());
+    }
+
+    LevelDataInJson CreataLevelData()
+    {
+        LevelDataInJson leveldata = new LevelDataInJson();
+        leveldata.RemainSteps = steps;
+        leveldata.Rows = rows;
+        leveldata.Columns = columns;
+        foreach (BlockInJson b in BlocksInEditor)
+        {
+            Debug.Log(b.p1_UpLeft + "--" + b.p2_BottomRight + "--" + b.BlockType);
+            leveldata.Blocks.Add (b);
+            
+        }
+
+        return leveldata;
+    }
+    void SaveLevelToJson(LevelDataInJson data)
+    {
+        string json = JsonUtility.ToJson(data);
+
+        // 定义文件路径。注意：这不是Resources文件夹，因为在运行时不能向其写入。
+        string path = Path.Combine(Application.persistentDataPath, levelname+".json");
+
+        File.WriteAllText(path, json);
+
+        Debug.Log($"Data saved to {path}");
+    }
 }
+
+
+
+

@@ -173,7 +173,7 @@ public class CreateWorld : MonoBehaviour
         TextAsset jsonTextFile = Resources.Load<TextAsset>(resourceName);
         if (jsonTextFile != null)
         {
-            LevelData levelData = JsonUtility.FromJson<LevelData>(jsonTextFile.text);
+            LevelDataInJson levelData = JsonUtility.FromJson<LevelDataInJson>(jsonTextFile.text);
             Debug.Log("Remain Steps: " + levelData.RemainSteps);
 
             rows = levelData.Rows;
@@ -187,38 +187,22 @@ public class CreateWorld : MonoBehaviour
             Global.Instance.RemainSteps = levelData.RemainSteps;
 
 
-            foreach (var block in levelData.Blocks)
+            foreach (BlockInJson block in levelData.Blocks)
             {
                 //Debug.Log($"Block Position: {block.position.x1}, {block.position.y1}, {block.position.x2}, {block.position.y2}");
 
-                if (block.type == "XType")
+                if (block.BlockType == BlockTypeInJson.XType)
                 {
-                    XDirection tempd = XDirection.None;
-                    foreach (var dir in block.directions)
-                    {
-                        if (dir == "LEFTUP") { tempd |= XDirection.LEFTUP; }
-                        if (dir == "RIGHTUP") { tempd |= XDirection.RIGHTUP; }
-                        if (dir == "LEFTDOWN") { tempd |= XDirection.LEFTDOWN; }
-                        if (dir == "RIGHTDOWN") { tempd |= XDirection.RIGHTDOWN; }
-                    }
-                    CreateBlockInLevel(new int2(block.position.x1, block.position.y1), new int2(block.position.x2, block.position.y2), 0, tempd);
+
+                    CreateBlockInLevel(new int2(block.p1_UpLeft.x, block.p1_UpLeft.y), new int2(block.p2_BottomRight.x, block.p2_BottomRight.y), 0, block.XDirections);
                     
                 }
-                if (block.type == "IType")
+                if (block.BlockType == BlockTypeInJson.IType)
                 {
-                    IDirection tempd = IDirection.None;
-                    foreach (var dir in block.directions)
-                    {
-                    
-                        if (dir == "UP") { tempd |= IDirection.UP; }
-                        if (dir == "DOWN") { tempd |= IDirection.DOWN; }
-                        if (dir == "LEFT") { tempd |= IDirection.LEFT; }
-                        if (dir == "RIGHT") { tempd |= IDirection.RIGHT; }
-                    }
-                    CreateBlockInLevel(new int2(block.position.x1, block.position.y1), new int2(block.position.x2, block.position.y2), 0, tempd);
+
+                    CreateBlockInLevel(new int2(block.p1_UpLeft.x, block.p1_UpLeft.y), new int2(block.p2_BottomRight.x, block.p2_BottomRight.y), 0, block.IDirections);
 
                 }
-                // 你可以在这里添加更多的逻辑来处理每个块的创建和配置
                
 
             }
@@ -230,7 +214,7 @@ public class CreateWorld : MonoBehaviour
     }
 
 }
-[Serializable]
+/*[Serializable]
 public class LevelData
 {
     public int RemainSteps;
@@ -254,4 +238,4 @@ public class Position
     public int y1;
     public int x2;
     public int y2;
-}
+}*/

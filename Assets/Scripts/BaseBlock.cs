@@ -751,3 +751,33 @@ public class XTypeBlock : BaseBlock
 
 }
 
+public enum BlockTypeInJson
+{
+    IType, XType
+}
+[Serializable]
+public class LevelDataInJson
+{
+    public int RemainSteps;
+    public int Rows;
+    public int Columns;
+    public List<BlockInJson> Blocks;
+    public LevelDataInJson()
+    {
+        Blocks = new List<BlockInJson>(); // 初始化列表
+    }
+}
+[System.Serializable]
+public class BlockInJson
+{
+    public Vector2Int p1_UpLeft;
+    public Vector2Int p2_BottomRight;
+
+
+    public BlockTypeInJson BlockType;
+    public IDirection IDirections;
+    public XDirection XDirections;
+
+    public Color ShowColor;
+
+}

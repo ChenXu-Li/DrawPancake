@@ -191,7 +191,7 @@ Canvas:
   m_GameObject: {fileID: 47163051}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8279120a1a68bad4489b8b4994796d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelname: level2
+  levelname: level1
   canvas: {fileID: 47163051}
   canvas_arrow: {fileID: 1454932673}
   buttonPrefab: {fileID: 2493920630096650932, guid: 157c9a5fdadd3b247aebfabc7091d36c, type: 3}
