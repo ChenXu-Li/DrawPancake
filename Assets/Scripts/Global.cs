@@ -34,9 +34,18 @@ public class Global
     public float ButtonWidth;
     public float ButtonHeight;
 
-    public int RemainSteps;
+    private int remainsteps;
+    public int RemainSteps
+    {
+        get { return remainsteps; }
+        set
+        {
+            remainsteps = value;
+            VisualEffect.UpdateRemainingStepsDisplay();
+        }
+    }
 
-      
+
     public void InitializeButtonCollection(int row,int col)
     {
         Instance.ButtonCollection = new GameObject[row, col];

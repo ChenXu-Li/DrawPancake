@@ -549,7 +549,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'remainsteps:
 
-    15'
+    666'
 --- !u!222 &577819123
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -771,13 +771,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8279120a1a68bad4489b8b4994796d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelname: level1
   canvas: {fileID: 47163051}
   canvas_arrow: {fileID: 1454932673}
   buttonPrefab: {fileID: 2493920630096650932, guid: 157c9a5fdadd3b247aebfabc7091d36c, type: 3}
   arrowPrefab: {fileID: 7678447841285160540, guid: 040b006c5f1537f4cb88f88d8897d82d, type: 3}
   remainstepsText: {fileID: 577819122}
-  rows: 8
-  columns: 8
 --- !u!4 &1655665515
 Transform:
   m_ObjectHideFlags: 0

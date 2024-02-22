@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
@@ -35,31 +36,60 @@ public class BaseBlock
     public int2 PositionTopLeft;//从（0，0）到（n-1，m-1）
     public int2 PositionBottomRight;//从（0，0）到（n-1，m-1）
 
-    public bool ifExpanded;
+
+    protected bool ifexpanded;
+
+    public bool ifExpanded
+    {
+        get { return ifexpanded; }
+        set { 
+            ifexpanded = value;
+           
+            if (this is ITypeBlock)
+            {
+                VisualEffect.ArrowUpdate((ITypeBlock)this);
+            }
+            else if (this is XTypeBlock)
+            {
+                VisualEffect.ArrowUpdate((XTypeBlock)this);
+            }
+        }
+    }
+
+
     public Color SquareColor;
 
-    protected virtual void Expand()
-    {
-        
-    }
-    protected virtual void Shrink()
-    {
-
-    }
+    protected virtual void Expand(int s){ }
+    protected virtual void Shrink(){ }
+    protected virtual int ExpandForesee(){ return 0; }
 
     public void Click()
     {
         if (ifExpanded)
         {
             Shrink ();
+            Debug.Log("------------------Shrink  ");
             ifExpanded = false;
+            Global.Instance.RemainSteps--;
+
         }
         else
         {
-            Expand ();
-            ifExpanded =  true;
+            int s = ExpandForesee();
+            if (s > 0)
+            {
+                Expand(s);
+                ifExpanded = true;
+                Debug.Log("------------------Expand ");
+                Global.Instance.RemainSteps--;
+            }
+            else
+            {
+                Debug.Log("can not Expand ");
+            }
+            
         }
-        Debug.Log("click ");
+        
     }
 }
 public class ITypeBlock : BaseBlock
@@ -86,7 +116,7 @@ public class ITypeBlock : BaseBlock
         ExpandedStep = initial_step;
         EnableDirs = Dirs;
         NumberIndex = num;
-        if (initial_step == 0) { ifExpanded = false; } else { ifExpanded = true; }
+        if (initial_step == 0) { ifexpanded = false; } else { ifexpanded = true; }//访问字段而不是属性
         
         for( int i = PositionTopLeft.x; i <= PositionBottomRight.x; i++ )
         {
@@ -132,11 +162,11 @@ public class ITypeBlock : BaseBlock
             ifExpanded = true;
 
         }*/
-    protected override void Expand()
+    protected override void Expand(int s)
     {
-        Debug.Log("ITypeBlock Expand ");
-        int s = ExpandForesee();
-        ExpandedStep += s;
+        //Debug.Log("ITypeBlock Expand ");
+        
+        ExpandedStep = s;
 
         if ((EnableDirs & IDirection.UP) == IDirection.UP)
         {
@@ -171,7 +201,7 @@ public class ITypeBlock : BaseBlock
             VisualEffect.FillButtonColor(tempp1, tempp2, SquareColor);
         }
 
-        ifExpanded = true;
+        //ifExpanded = true;
 
     }
     /*    protected int ExpandForesee()
@@ -236,7 +266,7 @@ public class ITypeBlock : BaseBlock
             Debug.Log("ITypeBlock ForeSee "+s);
             return s;
         }*/
-    protected int ExpandForesee()
+    protected override int ExpandForesee()
     {
  
        
@@ -337,7 +367,7 @@ public class ITypeBlock : BaseBlock
     }*/
     protected override void Shrink()
     {
-        Debug.Log("ITypeBlock Shrink ");
+        //Debug.Log("ITypeBlock Shrink ");
         int s = ExpandedStep;
         if ((EnableDirs & IDirection.UP) == IDirection.UP)
         {
@@ -376,7 +406,7 @@ public class ITypeBlock : BaseBlock
         }
 
         ExpandedStep = 0;
-        ifExpanded = false;
+        //ifExpanded = false;
     }
 
 
@@ -393,7 +423,7 @@ public class XTypeBlock : BaseBlock
         ExpandedStep = initial_step;
         EnableDirs = Dirs;
         NumberIndex = num;
-        if (initial_step == 0) { ifExpanded = false; } else { ifExpanded = true; }
+        if (initial_step == 0) { ifexpanded = false; } else { ifexpanded = true; }
         for (int i = PositionTopLeft.x; i <= PositionBottomRight.x; i++)
         {
             for (int j = PositionTopLeft.y; j <= PositionBottomRight.y; j++)
@@ -483,11 +513,11 @@ public class XTypeBlock : BaseBlock
         }
         ifExpanded = true;
     }*/
-    protected override void Expand()
+    protected override void Expand(int s)
     {
         Debug.Log("XTypeBlock Expand ");
-        int s = ExpandForesee();
-        ExpandedStep += s;
+        
+        ExpandedStep = s;
 
 
         if ((EnableDirs & XDirection.RIGHTUP) == XDirection.RIGHTUP)
@@ -554,9 +584,9 @@ public class XTypeBlock : BaseBlock
 
 
         }
-        ifExpanded = true;
+        //ifExpanded = true;
     }
-    protected int ExpandForesee()
+    protected override int ExpandForesee()
     {
         int s = 0;
         while( true)
@@ -642,7 +672,7 @@ public class XTypeBlock : BaseBlock
 
         }
         
-        Debug.Log("XTypeBlock ForeSee " + (s - 1));
+        //Debug.Log("XTypeBlock ForeSee " + (s - 1));
         return s-1;
     }
     protected override void Shrink()
@@ -713,7 +743,7 @@ public class XTypeBlock : BaseBlock
             
 
         ExpandedStep = 0;
-        ifExpanded = false;
+        //ifExpanded = false;
     }
 
 

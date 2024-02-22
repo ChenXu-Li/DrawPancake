@@ -18,7 +18,8 @@ public class VisualEffect: MonoBehaviour
     public static void UpdateRemainingStepsDisplay()
     {
         // 更新Text组件的内容
-        RemainStepsText.text = "Remaining Steps:\n " + Global.Instance.RemainSteps;
+        RemainStepsText.text = "Remaining Steps:\n "+ Global.Instance.RemainSteps;
+        //Debug.Log("step----"/*+ RemainStepsText.text*/);
     }
     public static void FillButtonColor(int2 p1,int2 p2,Color c)
 

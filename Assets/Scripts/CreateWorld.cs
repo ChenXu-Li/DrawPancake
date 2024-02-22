@@ -23,13 +23,8 @@ public class CreateWorld : MonoBehaviour
     
     // Start is called before the first frame update
     void Start()
-    {
-        
-        CreateLevel();
-        
-        
-        
-        
+    {     
+        CreateLevel();            
     }
     private void CreateColorCollections()
     {
@@ -50,13 +45,8 @@ public class CreateWorld : MonoBehaviour
         morandiColors[13] = new Color32(255, 165, 0, 255);    // ³ÈÉ«
         morandiColors[14] = new Color32(255, 192, 203, 255);  // ·Ûºì
         morandiColors[15] = new Color32(105, 105, 105, 255);  // °µ»Ò
-    }
+    } 
 
-    // Update is called once per frame
-    void Update()
-    {
-         
-    }
     void InitializeGlobalArg()
     {
         Global.Instance.InitializeButtonCollection(rows, columns);
@@ -110,14 +100,16 @@ public class CreateWorld : MonoBehaviour
     }
     void OnButtonClick(int rowIndex, int colIndex)
     {
-        Debug.Log(rowIndex + " " + colIndex);
+        //Debug.Log(rowIndex + " " + colIndex);
         int numberindex = Global.Instance.StateCollection[rowIndex+1, colIndex+1];
         if (numberindex!= 0&& numberindex != -1)
         {
             //Global.Instance.BlockCollection[numberindex].Position.x;
             BaseBlock a = Global.Instance.BlockCollection[numberindex - 1];
+
+
             a.Click ();
-            if (a is ITypeBlock)
+            /*if (a is ITypeBlock)
             {
                 VisualEffect.ArrowUpdate((ITypeBlock)a);
             }
@@ -127,7 +119,7 @@ public class CreateWorld : MonoBehaviour
             }
 
             Global.Instance.RemainSteps--;
-            VisualEffect.UpdateRemainingStepsDisplay();
+            VisualEffect.UpdateRemainingStepsDisplay();*/
 
 
         }
@@ -149,30 +141,7 @@ public class CreateWorld : MonoBehaviour
   
     void CreateLevel()
     {
-
-
         LoadLevelFromJson(levelname);
-/*        Global.Instance.RemainSteps = 15;
-        CreateBlockInLevel(new int2(0, 0), new int2(0, 0), 0, XDirection.RIGHTDOWN);
-        CreateBlockInLevel(new int2(0, 5), new int2(0, 5), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.DOWN);
-        CreateBlockInLevel(new int2(1, 7), new int2(1, 7), 0, XDirection.LEFTDOWN);
-        CreateBlockInLevel(new int2(3, 4), new int2(3, 4), 0, IDirection.RIGHT | IDirection.UP);
-        CreateBlockInLevel(new int2(3, 7), new int2(3, 7), 0, IDirection.DOWN);
-        CreateBlockInLevel(new int2(4, 0), new int2(4, 0), 0, IDirection.UP);
-        CreateBlockInLevel(new int2(4, 2), new int2(4, 2), 0, XDirection.LEFTUP);
-        CreateBlockInLevel(new int2(4, 3), new int2(4, 3), 0, IDirection.RIGHT | IDirection.UP);
-        CreateBlockInLevel(new int2(6, 7), new int2(6, 7), 0, XDirection.LEFTUP);
-        CreateBlockInLevel(new int2(7, 2), new int2(7, 2), 0, XDirection.LEFTUP | XDirection.RIGHTUP);
-        CreateBlockInLevel(new int2(7, 5), new int2(7, 5), 0, IDirection.RIGHT | IDirection.UP);*/
-
-        //CreateBlockInLevel(new int2(2,2),new int2(2,3), 0, IDirection.LEFT | IDirection.RIGHT | IDirection.UP | IDirection.DOWN);
-        //CreateBlockInLevel(new int2(2, 2), new int2(2, 2), 0, IDirection.RIGHT);
-        //CreateBlockInLevel(new int2(3, 4), new int2(5, 7), 0, IDirection.UP);
-
-        //CreateBlockInLevel(new int2(2, 3), new int2(2, 4), 0, XDirection.LEFTUP | XDirection.RIGHTUP |XDirection.LEFTDOWN | XDirection.RIGHTDOWN );
-
-
-
     }
 
 
@@ -206,14 +175,13 @@ public class CreateWorld : MonoBehaviour
 
             rows = levelData.Rows;
             columns = levelData.Columns;
-            Global.Instance.RemainSteps = 15;
-
-
 
             InitializeVisualEffectArg();
             InitializeGlobalArg();
             CreateColorCollections();
             CreateButtonZone();
+
+            Global.Instance.RemainSteps = levelData.RemainSteps;
 
 
             foreach (var block in levelData.Blocks)
