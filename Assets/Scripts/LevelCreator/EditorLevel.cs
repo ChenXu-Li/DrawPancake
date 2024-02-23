@@ -9,26 +9,43 @@ using UnityEngine.UI;
 
 public class EditorLevel : MonoBehaviour
 {
-    public string levelname;
+   
     public GameObject canvas;
-
     public GameObject buttonPrefab;
+    public Sprite pointupleftSprite;
+    public Sprite pointbottomrightSprite;
+    public Sprite defaultSprite;
 
-    public int steps;
-    public int rows;
-    public int columns;
-
-    public Color bcolor;
-
-    public BlockInJson[] BlocksInEditor;
-
+  
+    public enum EditType
+    {
+        PaintModel = 0,           // 0000
+        LocateModel = 1,           // 0001
+        
+    }
     private static int BlockCount = 0;
     private Color[] morandiColors = new Color[16];
+    private int colorcount = 0;
     // Start is called before the first frame update
 
     private GraphicRaycaster raycaster;
     private PointerEventData pointerEventData;
     private EventSystem eventSystem;
+
+
+    public Color bcolor;
+
+    /*public bool PaintModel;
+    public bool LocateModel;*/
+    public EditType editType;
+    public string levelname;
+    public int steps;
+    public int rows;
+    public int columns;
+    
+    public BlockInJson[] BlocksInEditor;
+
+    
     void Awake()
     {
         // 获取Canvas上的GraphicRaycaster组件
@@ -43,51 +60,130 @@ public class EditorLevel : MonoBehaviour
 
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0)) // 
+        if(editType  == EditType.PaintModel)
         {
-            
-            pointerEventData = new PointerEventData(eventSystem);
-            pointerEventData.position = Input.mousePosition;
-
-            List<RaycastResult> results = new List<RaycastResult>();
-            raycaster.Raycast(pointerEventData, results);
-
-            foreach (RaycastResult result in results)
+            if (Input.GetMouseButton(0)) // 
             {
-                
-                // 尝试获取Button组件
-                Button button = result.gameObject.GetComponent<Button>();
-                if (button != null)
+
+                pointerEventData = new PointerEventData(eventSystem);
+                pointerEventData.position = Input.mousePosition;
+
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, results);
+
+                foreach (RaycastResult result in results)
                 {
-                    
-                    button.GetComponent<Image>().color = bcolor;                   
+
+                    // 尝试获取Button组件
+                    Button button = result.gameObject.GetComponent<Button>();
+                    if (button != null)
+                    {
+
+                        button.GetComponent<Image>().color = bcolor;
+                    }
+                }
+            }
+            if (Input.GetMouseButton(1)) // 检测是否持续按住鼠标右键
+            {
+
+                pointerEventData = new PointerEventData(eventSystem);
+                pointerEventData.position = Input.mousePosition;
+
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, results);
+
+                foreach (RaycastResult result in results)
+                {
+
+                    // 尝试获取Button组件
+                    Button button = result.gameObject.GetComponent<Button>();
+                    if (button != null)
+                    {
+
+                        button.GetComponent<Image>().color = Color.black;
+                    }
+                }
+            }
+            if (Input.GetMouseButtonDown(2))
+            {
+                bcolor = morandiColors[++colorcount % 16];
+                Debug.Log("colorchange" + colorcount);
+
+            }
+        }
+        if (editType == EditType.LocateModel)
+        {
+            if (Input.GetMouseButtonDown(0)&&Input.GetKey(KeyCode.Q)) // 确定左上角角点
+            {
+
+                pointerEventData = new PointerEventData(eventSystem);
+                pointerEventData.position = Input.mousePosition;
+
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, results);
+
+                foreach (RaycastResult result in results)
+                {
+
+                    // 尝试获取Button组件
+                    Button button = result.gameObject.GetComponent<Button>();
+                    if (button != null)
+                    {
+                        //Sprite pointupleftSprite = Sprite.Create(pointimage, new Rect(0.0f, 0.0f, pointimage.width, pointimage.height), new Vector2(0.5f, 0.5f));
+                        button.GetComponent<Image>().sprite = pointupleftSprite;
+                        result.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = "ToString ()";
+                    }
+                }
+            }
+            if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.S)) 
+            {
+
+                pointerEventData = new PointerEventData(eventSystem);
+                pointerEventData.position = Input.mousePosition;
+
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, results);
+
+                foreach (RaycastResult result in results)
+                {
+
+                    // 尝试获取Button组件
+                    Button button = result.gameObject.GetComponent<Button>();
+                    if (button != null)
+                    {
+                        //Sprite pointupleftSprite = Sprite.Create(pointimage, new Rect(0.0f, 0.0f, pointimage.width, pointimage.height), new Vector2(0.5f, 0.5f));
+                        button.GetComponent<Image>().sprite = pointbottomrightSprite;
+                    }
+                }
+            }
+            if (Input.GetMouseButtonDown(1)) 
+            {
+
+                pointerEventData = new PointerEventData(eventSystem);
+                pointerEventData.position = Input.mousePosition;
+
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerEventData, results);
+
+                foreach (RaycastResult result in results)
+                {
+
+                    // 尝试获取Button组件
+                    Button button = result.gameObject.GetComponent<Button>();
+                    if (button != null)
+                    {
+                        //Sprite defaultSprite = Sprite.Create(defaultimage, new Rect(0.0f, 0.0f, defaultimage.width, defaultimage.height), new Vector2(0.5f, 0.5f));
+
+                        button.GetComponent<Image>().sprite = defaultSprite;
+                    }
                 }
             }
         }
-        if (Input.GetMouseButton(1)) // 检测是否持续按住鼠标右键
-        {
-
-            pointerEventData = new PointerEventData(eventSystem);
-            pointerEventData.position = Input.mousePosition;
-
-            List<RaycastResult> results = new List<RaycastResult>();
-            raycaster.Raycast(pointerEventData, results);
-
-            foreach (RaycastResult result in results)
-            {
-
-                // 尝试获取Button组件
-                Button button = result.gameObject.GetComponent<Button>();
-                if (button != null)
-                {
-                    
-                    button.GetComponent<Image>().color = Color.black;
-                }
-            }
-        }
+        
     }
     private void CreateColorCollections()
     {
@@ -139,15 +235,37 @@ public class EditorLevel : MonoBehaviour
                 Button buttonComponent = button.GetComponent<Button>();
                 int rowIndex = row;
                 int colIndex = col;
-                //buttonComponent.onClick.AddListener(() => OnButtonClick(rowIndex, colIndex, buttonComponent));
-               
+                buttonComponent.onClick.AddListener(() => OnButtonClick(rowIndex, colIndex, button));
+
+                //Sprite defaultSprite = Sprite.Create(defaultimage, new Rect(0.0f, 0.0f, defaultimage.width, defaultimage.height), new Vector2(0.5f, 0.5f));
+
+                //defaultSprite=button.GetComponent<Image>().sprite;
+
             }
         }
     }
-    void OnButtonClick(int rowIndex, int colIndex,Button buttonComponent)
+    void OnButtonClick(int rowIndex, int colIndex,GameObject button)
     {
-        Debug.Log(rowIndex + " " + colIndex);
-        buttonComponent.GetComponent<Image>().color = bcolor;
+        /*if (!PaintModel)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Sprite pointupleftSprite = Sprite.Create(pointimage, new Rect(0.0f, 0.0f, pointimage.width, pointimage.height), new Vector2(0.5f, 0.5f));
+
+                button.GetComponent<Image>().sprite = pointupleftSprite;
+
+            }
+            if (Input.GetMouseButton(1))
+            {
+                Sprite defaultSprite = Sprite.Create(defaultimage, new Rect(0.0f, 0.0f, defaultimage.width, defaultimage.height), new Vector2(0.5f, 0.5f));
+
+                button.GetComponent<Image>().sprite = defaultSprite;
+
+            }
+            Debug.Log(rowIndex + " " + colIndex);
+            
+        }*/
+
 
     }
 

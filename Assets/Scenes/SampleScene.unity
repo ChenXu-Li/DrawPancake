@@ -512,8 +512,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -298.5375, y: 39.0015}
-  m_SizeDelta: {x: 278.0888, y: 96.1052}
+  m_AnchoredPosition: {x: -349.32532, y: 17.911}
+  m_SizeDelta: {x: 368.1508, y: 138.2861}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577819122
 MonoBehaviour:
@@ -594,7 +594,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -328.18118, y: 133.6}
+  m_AnchoredPosition: {x: -424, y: 133.6}
   m_SizeDelta: {x: 218.8014, y: 91.7458}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1087815251
@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8279120a1a68bad4489b8b4994796d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelname: level1
+  levelname: level2
   canvas: {fileID: 47163051}
   canvas_arrow: {fileID: 1454932673}
   buttonPrefab: {fileID: 2493920630096650932, guid: 157c9a5fdadd3b247aebfabc7091d36c, type: 3}

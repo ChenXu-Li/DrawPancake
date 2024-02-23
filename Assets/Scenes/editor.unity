@@ -267,13 +267,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39585cbd39b9a444bac7a42a13847459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelname: level2
   canvas: {fileID: 90306958}
-  buttonPrefab: {fileID: 2493920630096650932, guid: 157c9a5fdadd3b247aebfabc7091d36c, type: 3}
+  buttonPrefab: {fileID: 2493920630096650932, guid: 25f58ea764957244480b4ec5cdc0e99c, type: 3}
+  pointupleftSprite: {fileID: 21300000, guid: a860c073fe59a8a4e98af97c12745b0b, type: 3}
+  pointbottomrightSprite: {fileID: 21300000, guid: 3e740ee7fe249dd41adcf464eb3ef916, type: 3}
+  defaultSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  bcolor: {r: 1, g: 0, b: 0, a: 1}
+  editType: 0
+  levelname: level2
   steps: 15
   rows: 12
   columns: 12
-  bcolor: {r: 1, g: 0, b: 0, a: 1}
   BlocksInEditor:
   - p1_UpLeft: {x: 0, y: 0}
     p2_BottomRight: {x: 0, y: 0}
