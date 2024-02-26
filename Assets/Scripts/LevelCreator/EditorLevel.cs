@@ -135,7 +135,14 @@ public class EditorLevel : MonoBehaviour
                     {
                         //Sprite pointupleftSprite = Sprite.Create(pointimage, new Rect(0.0f, 0.0f, pointimage.width, pointimage.height), new Vector2(0.5f, 0.5f));
                         button.GetComponent<Image>().sprite = pointupleftSprite;
-                        result.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = "ToString ()";
+
+                        string name = result.gameObject.name; // 获取GameObject的名称
+                        (bool r, int n1, int n2)  = SliceIntFromName(name);
+                        if (r)
+                        {
+                            result.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = $"{n1},{n2}";
+                        }
+                        
                     }
                 }
             }
@@ -151,12 +158,19 @@ public class EditorLevel : MonoBehaviour
                 foreach (RaycastResult result in results)
                 {
 
-                    // 尝试获取Button组件
                     Button button = result.gameObject.GetComponent<Button>();
+
                     if (button != null)
                     {
-                        //Sprite pointupleftSprite = Sprite.Create(pointimage, new Rect(0.0f, 0.0f, pointimage.width, pointimage.height), new Vector2(0.5f, 0.5f));
                         button.GetComponent<Image>().sprite = pointbottomrightSprite;
+
+                        string name = result.gameObject.name; 
+                        (bool r, int n1, int n2) = SliceIntFromName(name);
+                        if (r)
+                        {
+                            result.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = $"{n1},{n2}";
+                        }
+
                     }
                 }
             }
@@ -176,9 +190,8 @@ public class EditorLevel : MonoBehaviour
                     Button button = result.gameObject.GetComponent<Button>();
                     if (button != null)
                     {
-                        //Sprite defaultSprite = Sprite.Create(defaultimage, new Rect(0.0f, 0.0f, defaultimage.width, defaultimage.height), new Vector2(0.5f, 0.5f));
-
                         button.GetComponent<Image>().sprite = defaultSprite;
+                        result.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = "";
                     }
                 }
             }
@@ -300,6 +313,47 @@ public class EditorLevel : MonoBehaviour
         File.WriteAllText(path, json);
 
         Debug.Log($"Data saved to {path}");
+    }
+    public (bool, int, int) SliceIntFromName(string input)
+    {
+        int n1=-1, n2=-1;
+        bool success = true; // 假设的解析逻辑
+
+        string name = input; // 获取GameObject的名称
+
+        // 使用下划线分割名称
+        string[] parts = name.Split('_');
+
+        // 检查分割后的数组长度是否足够
+        if (parts.Length >= 3) // 确保名称符合预期的格式
+        {
+            string n1Str = parts[parts.Length - 2]; // 倒数第二部分是n1
+            string n2Str = parts[parts.Length - 1]; // 最后一部分是n2
+
+            // 尝试转换为整数
+            if (int.TryParse(n1Str, out int x1) && int.TryParse(n2Str, out int x2))
+            {
+                Debug.Log($"n1: {x1}, n2: {x2}");
+                n1=x1 ; 
+                n2=x2 ;
+            }
+            else
+            {
+                Debug.LogError("无法将名称的一部分转换为整数");
+                success = false;
+            }
+        }
+        else
+        {
+            Debug.LogError("GameObject的名称不符合预期的格式: " + name);
+            success = false;
+        }
+
+        if (success)
+        {
+            return (true, n1, n2);
+        }
+        return (false, -1, -1);
     }
 }
 
