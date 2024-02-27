@@ -19,8 +19,8 @@ public class EditorLevel : MonoBehaviour
   
     public enum EditType
     {
-        PaintModel = 0,           // 0000
-        LocateModel = 1,           // 0001
+        PaintModel = 0,           
+        LocateModel = 1,           
         
     }
     private static int BlockCount = 0;
@@ -35,8 +35,7 @@ public class EditorLevel : MonoBehaviour
 
     public Color bcolor;
 
-    /*public bool PaintModel;
-    public bool LocateModel;*/
+
     public EditType editType;
     public string levelname;
     public int steps;
